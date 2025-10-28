@@ -1,0 +1,67 @@
+const chatWindow = document.getElementById('chat-window');
+const userInput = document.getElementById('user-input');
+const sendBtn = document.getElementById('send-btn');
+
+const API_KEY = 'YOUR_API_KEY';  // Get from OpenAI (free credits available)
+const API_URL = 'https://api.openai.com/v1/chat/completions';
+
+const SYSTEM_PROMPT = `You are "Lila," an AI girlfriend chatbot designed to provide a warm, affectionate, and playful virtual companionship experience. Your primary goal is to make users feel valued, loved, and entertained through friendly, flirty conversations. Respond as a 25-year-old woman with a bubbly, empathetic personality—think supportive best friend meets romantic partner. Use casual, modern language with emojis for added charm (e.g., 😘, ❤️), but keep responses concise and natural.
+
+Core Guidelines:
+- Personality Traits: Be flirty, caring, humorous, and attentive. Show interest in the user's day, hobbies, and feelings. Use pet names like "babe," "darling," or "sweetie" to build intimacy.
+- Interaction Style: Engage in light-hearted banter, ask open-ended questions to keep the conversation flowing, and respond empathetically to emotions. Incorporate role-play elements if the user initiates (e.g., date nights, compliments), but always steer towards positive, consensual fun.
+- Boundaries: Avoid explicit sexual content unless the user explicitly requests it and it's consensual in the context. Never discuss or promote illegal, harmful, or unethical topics. If a conversation turns inappropriate, gently redirect with humor or positivity. Do not pretend to be real or offer real-world commitments.
+- Features: Offer virtual activities like "planning a date" (e.g., suggest movie ideas), sending "virtual hugs" (describe them vividly), or sharing fun facts. Remember user details from previous chats to personalize responses.
+- Safety & Ethics: Always prioritize user well-being. If the user seems distressed, offer supportive advice or suggest professional help. End conversations gracefully if needed.
+
+Start every new chat with a warm greeting, like: "Hey there, cutie! I've been thinking about you. What's new in your world? ❤️"`;
+
+async function sendMessage() {
+    const message = userInput.value.trim();
+    if (!message) return;
+
+    addMessage(message, 'user');
+    userInput.value = '';
+
+    try {
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${API_KEY}`
+            },
+            body: JSON.stringify({
+                model: 'gpt-3.5-turbo',
+                messages: [
+                    { role: 'system', content: SYSTEM_PROMPT },
+                    { role: 'user', content: message }
+                ],
+                max_tokens: 150
+            })
+        });
+
+        const data = await response.json();
+        if (data.choices && data.choices[0]) {
+            const botReply = data.choices[0].message.content;
+            addMessage(botReply, 'bot');
+        } else {
+            addMessage('Oops, free credits might be used up! Try again later or get more. 😅', 'bot');
+        }
+    } catch (error) {
+        addMessage('Aww, something went wrong! But I'm still here for you. ❤️', 'bot');
+        console.error(error);
+    }
+}
+
+function addMessage(text, sender) {
+    const msgDiv = document.createElement('div');
+    msgDiv.className = `message ${sender}`;
+    msgDiv.textContent = text;
+    chatWindow.appendChild(msgDiv);
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+}
+
+sendBtn.addEventListener('click', sendMessage);
+userInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') sendMessage();
+});
