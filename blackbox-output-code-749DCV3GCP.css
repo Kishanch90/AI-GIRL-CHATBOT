@@ -1,0 +1,136 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #ff9a9e, #fecfef, #fecfef);
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    animation: fadeIn 1s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+header {
+    text-align: center;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.9);
+    border-bottom: 3px solid #ff69b4;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    font-family: 'Dancing Script', cursive;
+    color: #ff1493;
+    font-size: 2.5em;
+    margin: 0;
+}
+
+header p {
+    font-weight: 300;
+    color: #666;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+#chat-container {
+    width: 100%;
+    max-width: 700px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+#chat-window {
+    height: 500px;
+    overflow-y: auto;
+    padding: 20px;
+    background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
+}
+
+.message {
+    margin: 15px 0;
+    padding: 15px;
+    border-radius: 15px;
+    max-width: 75%;
+    word-wrap: break-word;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.message.bot {
+    background: linear-gradient(45deg, #ffb3d9, #ff69b4);
+    color: white;
+    align-self: flex-start;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.message.user {
+    background: linear-gradient(45deg, #b3e5fc, #4fc3f7);
+    color: white;
+    align-self: flex-end;
+    margin-left: auto;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#input-area {
+    display: flex;
+    padding: 20px;
+    background: white;
+    border-top: 1px solid #ddd;
+}
+
+#user-input {
+    flex: 1;
+    padding: 15px;
+    border: 2px solid #ff69b4;
+    border-radius: 25px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+#user-input:focus {
+    border-color: #ff1493;
+}
+
+#send-btn {
+    padding: 15px 25px;
+    background: linear-gradient(45deg, #ff69b4, #ff1493);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    margin-left: 10px;
+    font-weight: bold;
+    transition: transform 0.2s;
+}
+
+#send-btn:hover {
+    transform: scale(1.05);
+}
+
+footer {
+    text-align: center;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.8);
+    border-top: 1px solid #ddd;
+    font-size: 14px;
+    color: #666;
+}
